@@ -96,21 +96,30 @@ class GUI( xbmcgui.WindowXMLDialog ):
       log( __name__, "VideoPlayer.OriginalTitle not found")
       self.title  = normalizeString(xbmc.getInfoLabel("VideoPlayer.Title"))      # no original title, get just Title :)
 
-    if self.tvshow == "":
-      if str(self.year) == "":                                            # If we have a year, assume no tv show
-        self.title, self.year = xbmc.getCleanMovieTitle( self.title )     # Clean before trying tvshow regex, else we get false results on some movies
-        if str(self.year) == "":                                          # Still no year: *could* be a tvshow
-          title, season, episode = regex_tvshow(False, self.title)
-          if title != "" and season != "" and episode != "":
-            self.season = str(int(season))
-            self.episode = str(int(episode))
-            self.tvshow = title
-          else:
-            self.season = ""                                              # Reset variables: could contain garbage from tvshow regex above
-            self.episode = ""
-            self.tvshow = ""
-    else:
-      self.year = ""
+    #if self.tvshow == "":
+    if str(self.year) == "":                                            # If we have a year, assume no tv show
+      self.title, self.year = xbmc.getCleanMovieTitle( self.title )     # Clean before trying tvshow regex, else we get false results on some movies
+      if str(self.year) == "":                                          # Still no year: *could* be a tvshow
+        title, season, episode = regex_tvshow(False, self.title)
+        if title != "" and season != "" and episode != "":
+          self.season = str(int(season))
+          self.episode = str(int(episode))
+          self.tvshow = title
+        else:
+          self.season = ""                                              # Reset variables: could contain garbage from tvshow regex above
+          self.episode = ""
+          self.tvshow = ""
+    # else:
+    #   log( __name__, self.tvshow)
+    #   log( __name__, self.year)
+    #   log( __name__, self.title)
+    #   log( __name__, self.season)
+    #   log( __name__, self.episode)
+    #   log( __name__, regex_tvshow(False, self.title))
+    #   self.year = ""
+    #   
+    log( __name__, xbmc.getInfoLabel("VideoPlayer.Season"))
+    log( __name__, xbmc.getInfoLabel("VideoPlayer.Episode"))
 
     self.file_original_path = urllib.unquote ( movieFullPath )             # Movie Path
 
